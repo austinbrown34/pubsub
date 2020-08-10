@@ -1,0 +1,13 @@
+import os
+import settings
+
+
+APPLICATION_PATH = settings.application_path
+SQL_PATH = './sql'
+
+MESSAGE_DB_HOST = os.getenv('MESSAGE_DB_HOST')
+MESSAGE_DB_PORT = os.getenv('MESSAGE_DB_PORT')
+MESSAGE_DB_DATABASE = os.getenv('MESSAGE_DB_DATABASE')
+MESSAGE_DB_USERNAME = os.getenv('MESSAGE_DB_USERNAME')
+MESSAGE_DB_PASSWORD = os.getenv('MESSAGE_DB_PASSWORD')
+MESSAGE_DB_TIMEOUT = 300
