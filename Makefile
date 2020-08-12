@@ -8,3 +8,6 @@ build_db:
 
 run_db:
 	docker run -p ${PORT}:5432 --rm -P --name ${DATABASE_DOCKER_NAME} ${DATABASE_DOCKER_TAG}
+
+run_localstack:
+	localstack start
