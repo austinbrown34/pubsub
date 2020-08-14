@@ -246,5 +246,149 @@ def write_message():
     return jsonify(response)
 
 
+@app.route('/v1/create_topic', methods=['POST'])
+def create_topic():
+    if not (request.json):
+        abort(400)
+    response = sns_service.create_topic(
+        **{k: v for k, v in request.json.items() if v is not None}
+    )
+
+    return jsonify(response)
+
+
+@app.route('/v1/publish', methods=['POST'])
+def publish():
+    if not (request.json):
+        abort(400)
+    response = sns_service.publish(
+        **{k: v for k, v in request.json.items() if v is not None}
+    )
+
+    return jsonify(response)
+
+
+@app.route('/v1/subscribe', methods=['POST'])
+def subscribe():
+    if not (request.json):
+        abort(400)
+    response = sns_service.subscribe(
+        **{k: v for k, v in request.json.items() if v is not None}
+    )
+
+    return jsonify(response)
+
+
+@app.route('/v1/add_permission', methods=['POST'])
+def add_permission():
+    if not (request.json):
+        abort(400)
+    response = sns_service.add_permission(
+        **{k: v for k, v in request.json.items() if v is not None}
+    )
+
+    return jsonify(response)
+
+
+@app.route('/v1/unsubscribe', methods=['POST'])
+def unsubscribe():
+    if not (request.json):
+        abort(400)
+    response = sns_service.unsubscribe(
+        **{k: v for k, v in request.json.items() if v is not None}
+    )
+
+    return jsonify(response)
+
+
+@app.route('/v1/delete_topic', methods=['POST'])
+def delete_topic():
+    if not (request.json):
+        abort(400)
+    response = sns_service.delete_topic(
+        **{k: v for k, v in request.json.items() if v is not None}
+    )
+
+    return jsonify(response)
+
+
+@app.route('/v1/subscription/<subscription_arn>/attributes', methods=['GET', 'POST'])
+def subscription_attributes(subscription_arn):
+    params = request.args.copy()
+    if request.method == 'POST':
+        if not (request.json):
+            abort(400)
+        params = request.json()
+    params['subscription_arn'] = subscription_arn
+    if 'attribute_name' in params and 'attribute_value' in params:
+        response = sns_service.set_subscription_attributes(
+            **{k: v for k, v in params.items() if v is not None}
+        )
+    else:
+        response = sns_service.get_subscription_attributes(
+            **{k: v for k, v in params.items() if v is not None}
+        )
+    return jsonify(response)
+
+
+@app.route('/v1/topic/<topic_arn>/attributes', methods=['GET', 'POST'])
+def topic_attributes(topic_arn):
+    params = request.args.copy()
+    if request.method == 'POST':
+        if not (request.json):
+            abort(400)
+        params = request.json()
+    params['topic_arn'] = topic_arn
+    if 'attribute_name' in params and 'attribute_value' in params:
+        response = sns_service.set_topic_attributes(
+            **{k: v for k, v in params.items() if v is not None}
+        )
+    else:
+        response = sns_service.get_topic_attributes(
+            **{k: v for k, v in params.items() if v is not None}
+        )
+    return jsonify(response)
+
+
+@app.route('/v1/subscriptions', methods=['GET', 'POST'])
+def list_subscriptions():
+    params = request.args.copy()
+    if request.method == 'POST':
+        if not (request.json):
+            abort(400)
+        params = request.json()
+    response = sns_service.list_subscriptions(
+        **{k: v for k, v in params.items() if v is not None}
+    )
+    return jsonify(response)
+
+
+@app.route('/v1/topics', methods=['GET', 'POST'])
+def list_topics():
+    params = request.args.copy()
+    if request.method == 'POST':
+        if not (request.json):
+            abort(400)
+        params = request.json()
+    response = sns_service.list_topics(
+        **{k: v for k, v in params.items() if v is not None}
+    )
+    return jsonify(response)
+
+
+@app.route('/v1/topic/<topic_arn>/subscriptions', methods=['GET', 'POST'])
+def list_subscriptions_by_topic(topic_arn):
+    params = request.args.copy()
+    if request.method == 'POST':
+        if not (request.json):
+            abort(400)
+        params = request.json()
+    params['topic_arn'] = topic_arn
+    response = sns_service.list_subscriptions_by_topic(
+        **{k: v for k, v in params.items() if v is not None}
+    )
+    return jsonify(response)
+
+
 if __name__ == '__main__':
     app.run()
