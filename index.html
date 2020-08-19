@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+
+<html>
+   <head>
+
+
+
+   </head>
+
+   <body>
+      <div id = "sse">
+
+      </div>
+
+   </body>
+   <script type="text/javascript">
+
+       var websocket = new WebSocket("wss://qbqljzxguj.execute-api.us-east-1.amazonaws.com/prod");
+       websocket.onopen = function() {
+
+                 // Web Socket is connected, send data using send()
+                 websocket.send(JSON.stringify({
+                     message: "subscribe",
+                     topic: "Test-1"
+                 }));
+                 alert("Message is sent...");
+              };
+
+              websocket.onmessage = function(str) {
+                console.log("SNS message received ", str);
+              };
+
+              websocket.onclose = function() {
+
+                 // websocket is closed.
+                 alert("Connection is closed...");
+              };
+
+
+
+   </script>
+</html>
