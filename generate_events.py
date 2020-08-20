@@ -40,11 +40,8 @@ for file_path in os.listdir('notes'):
     full_path = os.path.join('notes', file_path)
     if full_path.endswith('.txt'):
         with open(full_path) as fp:
-            # lines = str(fp.read())
-            lines = " *** ".join([str(line) for line in fp.readlines() if line])
-        print(lines)
-        # sentences += lines
-        sentences.append(lines)
+            lines = fp.readlines()
+        sentences += lines
 
 for _ in range(100):
     try:
